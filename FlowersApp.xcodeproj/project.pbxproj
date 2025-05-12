@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8501E2222DC7D12500B2DCFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2212DC7D12500B2DCFE /* AppDelegate.swift */; };
 		8501E2242DC7D12500B2DCFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2232DC7D12500B2DCFE /* SceneDelegate.swift */; };
-		8501E2262DC7D12500B2DCFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2252DC7D12500B2DCFE /* ViewController.swift */; };
 		8501E22B2DC7D12600B2DCFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8501E22A2DC7D12600B2DCFE /* Assets.xcassets */; };
 		8501E22E2DC7D12600B2DCFE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8501E22C2DC7D12600B2DCFE /* LaunchScreen.storyboard */; };
 		8501E23B2DC7D25B00B2DCFE /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E23A2DC7D25B00B2DCFE /* Color+Extension.swift */; };
@@ -17,25 +16,24 @@
 		8501E23F2DC7D29D00B2DCFE /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E23E2DC7D29D00B2DCFE /* UIView+Extension.swift */; };
 		8501E2412DC7D2C500B2DCFE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2402DC7D2C500B2DCFE /* Router.swift */; };
 		8501E2442DC7D2FB00B2DCFE /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2432DC7D2FB00B2DCFE /* WelcomeViewController.swift */; };
-		8501E2462DC7D55700B2DCFE /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2452DC7D55700B2DCFE /* WelcomeView.swift */; };
 		8501E2482DC7D8B600B2DCFE /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2472DC7D8B600B2DCFE /* CategoriesViewController.swift */; };
-		8501E24A2DC7DEAB00B2DCFE /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E2492DC7DEAB00B2DCFE /* CategoriesView.swift */; };
 		8501E24C2DC85EA200B2DCFE /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501E24B2DC85EA200B2DCFE /* CategoriesViewModel.swift */; };
 		E13164132DC8828000A8BF2A /* CategoryDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13164122DC8828000A8BF2A /* CategoryDetailController.swift */; };
-		E13164152DC885FF00A8BF2A /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13164142DC885FF00A8BF2A /* DetailView.swift */; };
 		E13164382DC8A5C700A8BF2A /* CategoryCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13164372DC8A5C700A8BF2A /* CategoryCardModel.swift */; };
 		E13164752DC8B4CD00A8BF2A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13164742DC8B4CD00A8BF2A /* TabBarController.swift */; };
 		E13164772DC8C45C00A8BF2A /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13164762DC8C45C00A8BF2A /* FavoritesViewController.swift */; };
+		E137D36E2DD0D760002140A7 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E137D36D2DD0D752002140A7 /* UIConstants.swift */; };
 		E1749A0F2DCB5186004CF147 /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1749A0E2DCB5180004CF147 /* UIView+Shadow.swift */; };
 		E1749A162DCB6E12004CF147 /* Notification+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1749A152DCB6E04004CF147 /* Notification+Ext.swift */; };
 		E1749A1D2DCB7113004CF147 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E1749A1C2DCB7113004CF147 /* SnapKit */; };
+		E18A47BA2DCCDFFE00F9AEFC /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18A47B92DCCDFFE00F9AEFC /* CartViewController.swift */; };
+		E1BA66DB2DCDF14300EF8A2F /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA66DA2DCDF14300EF8A2F /* CreateViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8501E21E2DC7D12500B2DCFE /* FlowersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlowersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8501E2212DC7D12500B2DCFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8501E2232DC7D12500B2DCFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8501E2252DC7D12500B2DCFE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8501E22A2DC7D12600B2DCFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8501E22D2DC7D12600B2DCFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8501E22F2DC7D12600B2DCFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,21 +42,23 @@
 		8501E23E2DC7D29D00B2DCFE /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		8501E2402DC7D2C500B2DCFE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		8501E2432DC7D2FB00B2DCFE /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		8501E2452DC7D55700B2DCFE /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		8501E2472DC7D8B600B2DCFE /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
-		8501E2492DC7DEAB00B2DCFE /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		8501E24B2DC85EA200B2DCFE /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		E13164122DC8828000A8BF2A /* CategoryDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailController.swift; sourceTree = "<group>"; };
-		E13164142DC885FF00A8BF2A /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		E13164372DC8A5C700A8BF2A /* CategoryCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCardModel.swift; sourceTree = "<group>"; };
 		E13164742DC8B4CD00A8BF2A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E13164762DC8C45C00A8BF2A /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		E137D36D2DD0D752002140A7 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		E1749A0E2DCB5180004CF147 /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
 		E1749A152DCB6E04004CF147 /* Notification+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Ext.swift"; sourceTree = "<group>"; };
+		E18A47B92DCCDFFE00F9AEFC /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		E1BA66DA2DCDF14300EF8A2F /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E13164B32DC8DE3600A8BF2A /* Managers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Managers; sourceTree = "<group>"; };
+		E137D37C2DD1FCEC002140A7 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+		E18A47B22DCCBD0000F9AEFC /* Protocols */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Protocols; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +92,7 @@
 		8501E2202DC7D12500B2DCFE /* FlowersApp */ = {
 			isa = PBXGroup;
 			children = (
+				E18A47B22DCCBD0000F9AEFC /* Protocols */,
 				E13164B32DC8DE3600A8BF2A /* Managers */,
 				8501E2392DC7D18D00B2DCFE /* Helpers */,
 				8501E2382DC7D17E00B2DCFE /* Router */,
@@ -100,7 +101,6 @@
 				8501E2352DC7D15A00B2DCFE /* Model */,
 				8501E2212DC7D12500B2DCFE /* AppDelegate.swift */,
 				8501E2232DC7D12500B2DCFE /* SceneDelegate.swift */,
-				8501E2252DC7D12500B2DCFE /* ViewController.swift */,
 				8501E22A2DC7D12600B2DCFE /* Assets.xcassets */,
 				8501E22C2DC7D12600B2DCFE /* LaunchScreen.storyboard */,
 				8501E22F2DC7D12600B2DCFE /* Info.plist */,
@@ -127,8 +127,8 @@
 		8501E2372DC7D17400B2DCFE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E137D37C2DD1FCEC002140A7 /* Views */,
 				8501E2422DC7D2E100B2DCFE /* Controller */,
-				8501E2452DC7D55700B2DCFE /* WelcomeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -144,6 +144,7 @@
 		8501E2392DC7D18D00B2DCFE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				E137D36D2DD0D752002140A7 /* UIConstants.swift */,
 				E1749A152DCB6E04004CF147 /* Notification+Ext.swift */,
 				E1749A0E2DCB5180004CF147 /* UIView+Shadow.swift */,
 				8501E23A2DC7D25B00B2DCFE /* Color+Extension.swift */,
@@ -158,11 +159,11 @@
 			children = (
 				8501E2432DC7D2FB00B2DCFE /* WelcomeViewController.swift */,
 				8501E2472DC7D8B600B2DCFE /* CategoriesViewController.swift */,
-				8501E2492DC7DEAB00B2DCFE /* CategoriesView.swift */,
 				E13164122DC8828000A8BF2A /* CategoryDetailController.swift */,
-				E13164142DC885FF00A8BF2A /* DetailView.swift */,
 				E13164742DC8B4CD00A8BF2A /* TabBarController.swift */,
 				E13164762DC8C45C00A8BF2A /* FavoritesViewController.swift */,
+				E18A47B92DCCDFFE00F9AEFC /* CartViewController.swift */,
+				E1BA66DA2DCDF14300EF8A2F /* CreateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -184,6 +185,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				E13164B32DC8DE3600A8BF2A /* Managers */,
+				E137D37C2DD1FCEC002140A7 /* Views */,
+				E18A47B22DCCBD0000F9AEFC /* Protocols */,
 			);
 			name = FlowersApp;
 			productName = FlowersApp;
@@ -246,16 +249,15 @@
 				8501E23F2DC7D29D00B2DCFE /* UIView+Extension.swift in Sources */,
 				E13164752DC8B4CD00A8BF2A /* TabBarController.swift in Sources */,
 				8501E2442DC7D2FB00B2DCFE /* WelcomeViewController.swift in Sources */,
-				8501E2262DC7D12500B2DCFE /* ViewController.swift in Sources */,
-				E13164152DC885FF00A8BF2A /* DetailView.swift in Sources */,
 				8501E2222DC7D12500B2DCFE /* AppDelegate.swift in Sources */,
 				8501E2482DC7D8B600B2DCFE /* CategoriesViewController.swift in Sources */,
-				8501E2462DC7D55700B2DCFE /* WelcomeView.swift in Sources */,
 				8501E2412DC7D2C500B2DCFE /* Router.swift in Sources */,
 				E13164382DC8A5C700A8BF2A /* CategoryCardModel.swift in Sources */,
 				8501E23D2DC7D27F00B2DCFE /* Images.swift in Sources */,
 				E1749A162DCB6E12004CF147 /* Notification+Ext.swift in Sources */,
-				8501E24A2DC7DEAB00B2DCFE /* CategoriesView.swift in Sources */,
+				E18A47BA2DCCDFFE00F9AEFC /* CartViewController.swift in Sources */,
+				E1BA66DB2DCDF14300EF8A2F /* CreateViewController.swift in Sources */,
+				E137D36E2DD0D760002140A7 /* UIConstants.swift in Sources */,
 				E1749A0F2DCB5186004CF147 /* UIView+Shadow.swift in Sources */,
 				8501E2242DC7D12500B2DCFE /* SceneDelegate.swift in Sources */,
 				E13164132DC8828000A8BF2A /* CategoryDetailController.swift in Sources */,

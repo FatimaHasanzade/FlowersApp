@@ -33,4 +33,34 @@ extension UIColor {
         static let flower10 = UIColor(red: 0.97, green: 0.64, blue: 0.30, alpha: 0.1)
         static let flower10_Outline = UIColor(red: 0.97, green: 0.64, blue: 0.30, alpha: 0.7)
     }
+    
+    func encode() -> String {
+           var red: CGFloat = 0
+           var green: CGFloat = 0
+           var blue: CGFloat = 0
+           var alpha: CGFloat = 0
+           self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+           
+           let colorData = [red, green, blue, alpha].map { Float($0) }
+           let data = try! JSONEncoder().encode(colorData)
+           return data.base64EncodedString()
+       }
+       
+       static func decode(from base64: String) throws -> UIColor {
+           guard let data = Data(base64Encoded: base64) else {
+               throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Invalid base64 string"))
+           }
+           
+           let colorComponents = try JSONDecoder().decode([Float].self, from: data)
+           guard colorComponents.count == 4 else {
+               throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Invalid color components"))
+           }
+           
+           return UIColor(
+               red: CGFloat(colorComponents[0]),
+               green: CGFloat(colorComponents[1]),
+               blue: CGFloat(colorComponents[2]),
+               alpha: CGFloat(colorComponents[3])
+           )
+       }
 }

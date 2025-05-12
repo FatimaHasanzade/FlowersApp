@@ -1,5 +1,5 @@
 //
-//  FavoritesViewController.swift
+//  CartViewController.swift
 //  FlowersApp
 //
 //  Created by Fatima Hasanzade on 05.05.25.
@@ -8,63 +8,82 @@
 import UIKit
 import SnapKit
 
-class FavoritesViewController: UIViewController, CategoryCardCellDelegate, CreateViewControllerDelegate {
+class CartViewController: UIViewController, CategoryCardCellDelegate, CreateViewControllerDelegate {
     
     // MARK: - CategoryCardCellDelegate Methods
     func didTapHeart(on cell: CategoryCardCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        removeFromFavorites(at: indexPath.row)
+        let item = cartItems[indexPath.row]
+        
+        UserDefaultsManager.shared.saveFavorite(id: item.id)
+        
+        let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) sevimlilərə əlavə edildi!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     func didTapAddToCart(on cell: CategoryCardCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        let item = favoriteCategories[indexPath.row]
-        CartManager.shared.addToCart(item: item)
-        let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) səbətə əlavə edildi!", preferredStyle: .alert)
+        let item = cartItems[indexPath.row]
+        
+        CartManager.shared.removeFromCart(id: item.id)
+        cartItems = CartManager.shared.getCartItems()
+        collectionView.reloadData()
+        checkEmptyState()
+        
+        let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) səbətdən çıxarıldı!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
     func didTapDelete(on cell: CategoryCardCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        let item = favoriteCategories[indexPath.row]
+        let item = cartItems[indexPath.row]
         
-        let alert = UIAlertController(title: "Sil", message: "\(item.title) sevimlilərdən silinsin?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Sil", message: "\(item.title) səbətdən silinsin?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ləğv et", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Sil", style: .destructive) { _ in
-            self.removeFromFavorites(at: indexPath.row)
+            CartManager.shared.removeFromCart(id: item.id)
+            self.cartItems = CartManager.shared.getCartItems()
+            self.collectionView.reloadData()
+            self.checkEmptyState()
+            NotificationCenter.default.post(name: .cartUpdated, object: nil)
         })
         present(alert, animated: true, completion: nil)
     }
     
     func didTapUpdate(on cell: CategoryCardCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        let selectedModel = favoriteCategories[indexPath.row]
-        let createVC = CreateViewController(router: router, category: selectedModel)
+        let selectedModel = cartItems[indexPath.row]
+        let createVC = CreateViewController(router: router, category: selectedModel, index: indexPath.row)
         createVC.delegate = self
         navigationController?.pushViewController(createVC, animated: true)
     }
     
     // MARK: - CreateViewControllerDelegate Methods
     func didCreateNewCategory(_ category: CategoryCardModel) {
-        // Not applicable for favorites, but required by protocol
+        // Not applicable for cart, but required by protocol
     }
     
     func didUpdateCategory(_ category: CategoryCardModel, at index: Int) {
-        guard index < favoriteCategories.count else { return }
-        favoriteCategories[index] = category
+        CartManager.shared.updateCartItem(category, at: index)
+        cartItems = CartManager.shared.getCartItems()
         collectionView.reloadData()
         checkEmptyState()
-        delegate?.didUpdateFavorites()
-        NotificationCenter.default.post(name: .favoritesUpdated, object: nil)
+        NotificationCenter.default.post(name: .cartUpdated, object: nil)
     }
     
     func didDeleteCategory(at index: Int) {
-        guard index < favoriteCategories.count else { return }
-        removeFromFavorites(at: index)
+        guard index < cartItems.count else { return }
+        let item = cartItems[index]
+        CartManager.shared.removeFromCart(id: item.id)
+        cartItems = CartManager.shared.getCartItems()
+        collectionView.reloadData()
+        checkEmptyState()
+        NotificationCenter.default.post(name: .cartUpdated, object: nil)
     }
     
-    // MARK: - UI Components
+    // MARK: - Properties
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -80,18 +99,9 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
         return collectionView
     }()
     
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "heart")
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .gray
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
     private let emptyStateLabel: UILabel = {
         let label = UILabel()
-        label.text = "No favorites yet"
+        label.text = "No cart items"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = .gray
@@ -100,15 +110,22 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
         return label
     }()
     
-    // MARK: - Properties
-    private var favoriteCategories: [CategoryCardModel]
-    var router: Router
-    weak var delegate: FavoritesUpdateDelegate?
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "cart")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .gray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
-    // MARK: - Initializer
-    init(router: Router, favorites: [CategoryCardModel]) {
+    private var cartItems: [CategoryCardModel]
+    var router: Router
+    
+    // MARK: - Initializers
+    init(router: Router) {
         self.router = router
-        self.favoriteCategories = favorites
+        self.cartItems = CartManager.shared.getCartItems()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -125,16 +142,16 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
         checkEmptyState()
         
         NotificationCenter.default.addObserver(self,
+                                             selector: #selector(handleCartUpdated),
+                                             name: .cartUpdated,
+                                             object: nil)
+        NotificationCenter.default.addObserver(self,
                                              selector: #selector(handleCategoryUpdated(_:)),
                                              name: .categoryUpdated,
                                              object: nil)
         NotificationCenter.default.addObserver(self,
                                              selector: #selector(handleCategoryDeleted(_:)),
                                              name: .categoryDeleted,
-                                             object: nil)
-        NotificationCenter.default.addObserver(self,
-                                             selector: #selector(handleFavoritesUpdated),
-                                             name: .favoritesUpdated,
                                              object: nil)
     }
     
@@ -144,51 +161,13 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
     
     // MARK: - Setup Methods
     private func setup() {
-        title = "Favorites"
+        title = "Cart"
         view.addSubview(collectionView)
         view.addSubview(emptyStateLabel)
         view.addSubview(imageView)
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.left"),
-            style: .plain,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
-    }
-    
-    // MARK: - Actions
-    @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    // MARK: - Notification Handlers
-    @objc private func handleCategoryUpdated(_ notification: Notification) {
-        if let category = notification.userInfo?["category"] as? CategoryCardModel,
-           let index = notification.userInfo?["index"] as? Int,
-           index < favoriteCategories.count,
-           favoriteCategories.contains(where: { $0.id == category.id }) {
-            favoriteCategories[index] = category
-            collectionView.reloadData()
-            checkEmptyState()
-        }
-    }
-    
-    @objc private func handleCategoryDeleted(_ notification: Notification) {
-        if let index = notification.userInfo?["index"] as? Int,
-           index < favoriteCategories.count {
-            removeFromFavorites(at: index)
-        }
-    }
-    
-    @objc private func handleFavoritesUpdated() {
-        // Refresh favorites from source (e.g., CategoriesViewModel or UserDefaultsManager)
-        favoriteCategories = CategoriesViewModel().getFavoriteCategories()
-        collectionView.reloadData()
-        checkEmptyState()
     }
     
     // MARK: - Layout
@@ -211,31 +190,45 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
     
     // MARK: - Helper Methods
     private func checkEmptyState() {
-        emptyStateLabel.isHidden = !favoriteCategories.isEmpty
-        imageView.isHidden = !favoriteCategories.isEmpty
-        title = favoriteCategories.isEmpty ? "No favorites" : "Favorites"
+        emptyStateLabel.isHidden = !cartItems.isEmpty
+        imageView.isHidden = !cartItems.isEmpty
+        tabBarItem.badgeValue = cartItems.isEmpty ? nil : "\(cartItems.count)"
     }
     
-    private func removeFromFavorites(at index: Int) {
-        guard index >= 0 && index < favoriteCategories.count else {
-            print("Xəta mesajı: Geçersiz indeks \(index)")
-            return
-        }
-        
-        let id = favoriteCategories[index].id
-        UserDefaultsManager.shared.removeFavorite(id: id)
-        favoriteCategories.remove(at: index)
+    // MARK: - Notification Handlers
+    @objc private func handleCartUpdated() {
+        cartItems = CartManager.shared.getCartItems()
         collectionView.reloadData()
         checkEmptyState()
-        delegate?.didUpdateFavorites()
-        NotificationCenter.default.post(name: .favoritesUpdated, object: nil)
+    }
+    
+    @objc private func handleCategoryUpdated(_ notification: Notification) {
+        if let category = notification.userInfo?["category"] as? CategoryCardModel,
+           let index = notification.userInfo?["index"] as? Int,
+           cartItems.contains(where: { $0.id == category.id }) {
+            CartManager.shared.updateCartItem(category, at: index)
+            cartItems = CartManager.shared.getCartItems()
+            collectionView.reloadData()
+            checkEmptyState()
+        }
+    }
+    
+    @objc private func handleCategoryDeleted(_ notification: Notification) {
+        if let index = notification.userInfo?["index"] as? Int,
+           index < cartItems.count {
+            let item = cartItems[index]
+            CartManager.shared.removeFromCart(id: item.id)
+            cartItems = CartManager.shared.getCartItems()
+            collectionView.reloadData()
+            checkEmptyState()
+        }
     }
 }
 
-// MARK: - UICollectionViewDelegate & DataSource & FlowLayout
-extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+extension CartViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favoriteCategories.count
+        return cartItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -243,7 +236,7 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
             return UICollectionViewCell()
         }
         
-        let item = favoriteCategories[indexPath.row]
+        let item = cartItems[indexPath.row]
         cell.model = item
         cell.delegate = self
         
@@ -255,7 +248,7 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedModel = favoriteCategories[indexPath.row]
+        let selectedModel = cartItems[indexPath.row]
         router.navigateToCategoryDetail(with: selectedModel)
     }
 }

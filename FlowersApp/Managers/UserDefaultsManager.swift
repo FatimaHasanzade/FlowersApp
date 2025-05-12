@@ -5,39 +5,98 @@
 //  Created by Fatima Hasanzade on 07.05.25.
 //
 
-import Foundation
+import UIKit
 
-class UserDefaultsManager {
+final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     
-    private let favoritesKey = "favoriteFlowers"
+    private let categoriesKey = "SavedCategories"
+    private let favoritesKey = "FavoriteCategories"
     
     private init() {}
     
+    // MARK: - Category Management
     
-    // MARK: - Public Methods
+    func saveCategory(_ category: CategoryCardModel) {
+        var categories = getCategories()
+        
+        if let index = categories.firstIndex(where: { $0.id == category.id }) {
+            categories[index] = category
+        } else {
+            categories.append(category)
+        }
+        
+        saveCategories(categories)
+    }
+    
+    func updateCategory(_ category: CategoryCardModel, at id: Int) {
+        var categories = getCategories()
+        
+        guard let index = categories.firstIndex(where: { $0.id == id }) else {
+          
+            return
+        }
+        
+        categories[index] = category
+        saveCategories(categories)
+    }
+    
+    func deleteCategory(at id: Int) {
+        var categories = getCategories()
+        let initialCount = categories.count
+        
+        categories.removeAll { $0.id == id }
+        
+        if categories.count < initialCount {
+            saveCategories(categories)
+        } else {
+           
+        }
+    }
+    
+    func getCategories() -> [CategoryCardModel] {
+        guard let data = UserDefaults.standard.data(forKey: categoriesKey) else {
+            return []
+        }
+        
+        do {
+            return try JSONDecoder().decode([CategoryCardModel].self, from: data)
+        } catch {
+            print("Failed to decode categories: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    private func saveCategories(_ categories: [CategoryCardModel]) {
+        do {
+            let encoded = try JSONEncoder().encode(categories)
+            UserDefaults.standard.set(encoded, forKey: categoriesKey)
+        } catch {
+            print("Failed to encode categories: \(error.localizedDescription)")
+        }
+    }
 
+    // MARK: - Favorite Management
+    
     func saveFavorite(id: Int) {
         var favorites = getFavorites()
-        if !favorites.contains(id) {
-            favorites.append(id)
-            UserDefaults.standard.set(favorites, forKey: favoritesKey)
-        }
+        guard !favorites.contains(id) else { return }
+        
+        favorites.append(id)
+        UserDefaults.standard.set(favorites, forKey: favoritesKey)
     }
     
     func removeFavorite(id: Int) {
         var favorites = getFavorites()
-        favorites.removeAll(where: { $0 == id })
+        favorites.removeAll { $0 == id }
         UserDefaults.standard.set(favorites, forKey: favoritesKey)
     }
     
     func isFavorite(id: Int) -> Bool {
-        let favorites = getFavorites()
-        return favorites.contains(id)
+        getFavorites().contains(id)
     }
     
-    
-    func getFavorites() -> [Int] {
+    private func getFavorites() -> [Int] {
         return UserDefaults.standard.array(forKey: favoritesKey) as? [Int] ?? []
     }
 }

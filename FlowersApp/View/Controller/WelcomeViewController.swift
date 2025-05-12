@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WelcomeViewController.swift
 //  FlowersApp
 //
 //  Created by Fatima Hasanzade on 03.05.25.

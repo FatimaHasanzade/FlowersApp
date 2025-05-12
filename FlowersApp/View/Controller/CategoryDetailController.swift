@@ -55,7 +55,7 @@ class CategoryDetailController: UIViewController {
         detailView.labelTitle.text = model.title
         detailView.imageView.image = model.image
         
-        print("image: \(model.image)")
+    
     }
     
         
