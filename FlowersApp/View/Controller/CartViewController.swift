@@ -17,8 +17,8 @@ class CartViewController: UIViewController, CategoryCardCellDelegate, CreateView
         
         UserDefaultsManager.shared.saveFavorite(id: item.id)
         
-        let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) sevimlilərə əlavə edildi!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+        let alert = UIAlertController(title: "Success", message: "\(item.title) has been added to favorites!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
@@ -31,8 +31,8 @@ class CartViewController: UIViewController, CategoryCardCellDelegate, CreateView
         collectionView.reloadData()
         checkEmptyState()
         
-        let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) səbətdən çıxarıldı!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+        let alert = UIAlertController(title: "Success", message: "\(item.title) has been removed from the cart!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
@@ -40,9 +40,9 @@ class CartViewController: UIViewController, CategoryCardCellDelegate, CreateView
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         let item = cartItems[indexPath.row]
         
-        let alert = UIAlertController(title: "Sil", message: "\(item.title) səbətdən silinsin?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ləğv et", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Sil", style: .destructive) { _ in
+        let alert = UIAlertController(title: "Delete", message: "Do you want to remove \(item.title) from the cart?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
             CartManager.shared.removeFromCart(id: item.id)
             self.cartItems = CartManager.shared.getCartItems()
             self.collectionView.reloadData()
@@ -252,4 +252,3 @@ extension CartViewController: UICollectionViewDelegate, UICollectionViewDataSour
         router.navigateToCategoryDetail(with: selectedModel)
     }
 }
-

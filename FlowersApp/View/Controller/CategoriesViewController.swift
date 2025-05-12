@@ -7,25 +7,19 @@
 import UIKit
 import SnapKit
 
-
-
 class CategoriesViewController: UIViewController, CategoryCardCellDelegate, FavoritesUpdateDelegate, CreateViewControllerDelegate {
     
     // MARK: - Delegate Methods
     func didTapHeart(on cell: CategoryCardCell) {
         guard let indexPath = categoriesView.collectionView.indexPath(for: cell) else { return }
         let category = filteredCategories[indexPath.row]
-        print("Before toggle>>>>> \(category.isFavorite)")
         
-        // Toggle favorite status in viewModel using category ID
         viewModel.toggleFavorite(categoryId: category.id)
         
-        // Update filteredCategories to reflect the change
         if let index = filteredCategories.firstIndex(where: { $0.id == category.id }) {
             filteredCategories[index].isFavorite = viewModel.categoriesList.first(where: { $0.id == category.id })?.isFavorite ?? filteredCategories[index].isFavorite
         }
         
-        print("After toggle>>>>>> \(filteredCategories[indexPath.row].isFavorite)")
         categoriesView.collectionView.reloadItems(at: [indexPath])
     }
     
@@ -37,15 +31,15 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
             CartManager.shared.removeFromCart(id: item.id)
             cell.setCartStatus(isInCart: false)
             
-            let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) səbətdən çıxarıldı!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+            let alert = UIAlertController(title: "Success", message: "\(item.title) has been removed from the cart!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         } else {
             CartManager.shared.addToCart(item: item)
             cell.setCartStatus(isInCart: true)
             
-            let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) səbətə əlavə edildi!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+            let alert = UIAlertController(title: "Success", message: "\(item.title) has been added to the cart!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
     }
@@ -53,10 +47,9 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
     func didTapDelete(on cell: CategoryCardCell) {
         guard let indexPath = categoriesView.collectionView.indexPath(for: cell) else { return }
         let category = filteredCategories[indexPath.row]
-        let alert = UIAlertController(title: "Sil", message: "Bu kateqoriyanı silmək istədiyinizə əminsiniz?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ləğv et", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Sil", style: .destructive) { _ in
-            print("Attempting to delete category: \(category.title), ID: \(category.id)")
+        let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete this category?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.viewModel.deleteCategory(withId: category.id)
             self.filteredCategories = self.viewModel.categoriesList
             self.categoriesView.collectionView.reloadData()
@@ -86,7 +79,6 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
     }
     
     func didDeleteCategory(at id: Int) {
-        print("Delegate: Received delete request for category ID: \(id)")
         viewModel.deleteCategory(withId: id)
         filteredCategories = viewModel.categoriesList
         categoriesView.collectionView.reloadData()
@@ -124,7 +116,6 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
         setupNavigationController()
         filteredCategories = viewModel.categoriesList
         
-        // Notification dinlə
         NotificationCenter.default.addObserver(self,
                                              selector: #selector(handleNewCategory(_:)),
                                              name: .newCategoryCreated,
@@ -137,11 +128,9 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
                                              selector: #selector(handleDeletedCategory(_:)),
                                              name: .categoryDeleted,
                                              object: nil)
-        
     }
     
     deinit {
-        
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -164,12 +153,9 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
     
     @objc private func handleDeletedCategory(_ notification: Notification) {
         if let id = notification.userInfo?["id"] as? Int {
-            print("Received categoryDeleted notification for ID: \(id)")
             viewModel.deleteCategory(withId: id)
             filteredCategories = viewModel.categoriesList
             categoriesView.collectionView.reloadData()
-        } else {
-            print("Invalid or missing ID in categoryDeleted notification")
         }
     }
     
@@ -186,12 +172,11 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
         categoriesView.collectionView.delegate = self
         categoriesView.collectionView.dataSource = self
         
-
         let favoritesButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"),
                                              style: .plain,
                                              target: self,
                                              action: #selector(showFavorites))
-
+        
         navigationItem.rightBarButtonItems = [favoritesButton]
         
         categoriesView.searchBar.delegate = self
@@ -202,8 +187,6 @@ class CategoriesViewController: UIViewController, CategoryCardCellDelegate, Favo
         favoritesVC.delegate = self
         navigationController?.pushViewController(favoritesVC, animated: true)
     }
-    
-
     
     private func layout() {
         categoriesView.snp.makeConstraints { make in

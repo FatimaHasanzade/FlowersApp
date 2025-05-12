@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 struct CategoriesViewModel {
     var categoriesList: [CategoryCardModel] = []
 
@@ -49,7 +47,6 @@ struct CategoriesViewModel {
 
     mutating func toggleFavorite(categoryId: Int) {
         guard let index = categoriesList.firstIndex(where: { $0.id == categoryId }) else {
-            print("No category found with ID: \(categoryId)")
             return
         }
 
@@ -86,7 +83,6 @@ struct CategoriesViewModel {
 
     mutating func updateCategory(_ category: CategoryCardModel, at index: Int) {
         guard categoriesList.indices.contains(index) else {
-            print("Invalid index for update: \(index)")
             return
         }
         categoriesList[index] = category
@@ -94,7 +90,6 @@ struct CategoriesViewModel {
 
     mutating func deleteCategory(withId id: Int) {
         guard let index = categoriesList.firstIndex(where: { $0.id == id }) else {
-            print("No category found in ViewModel with ID: \(id)")
             return
         }
 

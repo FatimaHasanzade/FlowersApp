@@ -215,7 +215,6 @@ class CreateViewController: UIViewController {
     
     private func configureForMode() {
         if let category = category {
-         
             titleTextField.text = category.title
             selectedColor = category.color
             selectedImage = category.image
@@ -226,7 +225,6 @@ class CreateViewController: UIViewController {
             saveButton.setTitle("Update", for: .normal)
             deleteButton.isHidden = false
         } else {
-            
             deleteButton.isHidden = true
         }
     }
@@ -281,7 +279,6 @@ class CreateViewController: UIViewController {
     
     @objc private func saveCategory() {
         guard let title = titleTextField.text, !title.isEmpty, let selectedImage = selectedImage else {
-            print("Cannot save category: Title or image is missing")
             return
         }
         
@@ -295,7 +292,6 @@ class CreateViewController: UIViewController {
         )
         
         if let index = categoryIndex {
-            
             delegate?.didUpdateCategory(categoryModel, at: index)
             UserDefaultsManager.shared.updateCategory(categoryModel, at: categoryModel.id)
             NotificationCenter.default.post(name: .categoryUpdated, object: nil, userInfo: ["category": categoryModel, "index": index])
@@ -304,7 +300,6 @@ class CreateViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         } else {
-            
             delegate?.didCreateNewCategory(categoryModel)
             UserDefaultsManager.shared.saveCategory(categoryModel)
             NotificationCenter.default.post(name: .newCategoryCreated, object: nil, userInfo: ["category": categoryModel])
@@ -317,7 +312,6 @@ class CreateViewController: UIViewController {
     
     @objc private func deleteCategory() {
         guard let category = category else {
-            print("No category provided for deletion")
             return
         }
         let categoryId = category.id

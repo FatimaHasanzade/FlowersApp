@@ -20,8 +20,8 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         let item = favoriteCategories[indexPath.row]
         CartManager.shared.addToCart(item: item)
-        let alert = UIAlertController(title: "Uğurlu", message: "\(item.title) səbətə əlavə edildi!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+        let alert = UIAlertController(title: "Success", message: "\(item.title) has been added to the cart!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
@@ -29,9 +29,9 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         let item = favoriteCategories[indexPath.row]
         
-        let alert = UIAlertController(title: "Sil", message: "\(item.title) sevimlilərdən silinsin?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ləğv et", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Sil", style: .destructive) { _ in
+        let alert = UIAlertController(title: "Delete", message: "Do you want to remove \(item.title) from favorites?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.removeFromFavorites(at: indexPath.row)
         })
         present(alert, animated: true, completion: nil)
@@ -217,10 +217,7 @@ class FavoritesViewController: UIViewController, CategoryCardCellDelegate, Creat
     }
     
     private func removeFromFavorites(at index: Int) {
-        guard index >= 0 && index < favoriteCategories.count else {
-            print("Xəta mesajı: Geçersiz indeks \(index)")
-            return
-        }
+        guard index >= 0 && index < favoriteCategories.count else { return }
         
         let id = favoriteCategories[index].id
         UserDefaultsManager.shared.removeFavorite(id: id)
@@ -259,4 +256,3 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
         router.navigateToCategoryDetail(with: selectedModel)
     }
 }
-

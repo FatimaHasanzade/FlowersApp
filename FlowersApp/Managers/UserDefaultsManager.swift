@@ -33,7 +33,6 @@ final class UserDefaultsManager {
         var categories = getCategories()
         
         guard let index = categories.firstIndex(where: { $0.id == id }) else {
-          
             return
         }
         
@@ -49,8 +48,6 @@ final class UserDefaultsManager {
         
         if categories.count < initialCount {
             saveCategories(categories)
-        } else {
-           
         }
     }
     
@@ -62,7 +59,6 @@ final class UserDefaultsManager {
         do {
             return try JSONDecoder().decode([CategoryCardModel].self, from: data)
         } catch {
-            print("Failed to decode categories: \(error.localizedDescription)")
             return []
         }
     }
@@ -72,7 +68,6 @@ final class UserDefaultsManager {
             let encoded = try JSONEncoder().encode(categories)
             UserDefaults.standard.set(encoded, forKey: categoriesKey)
         } catch {
-            print("Failed to encode categories: \(error.localizedDescription)")
         }
     }
 
